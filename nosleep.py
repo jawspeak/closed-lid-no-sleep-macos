@@ -5,6 +5,7 @@ import time
 import sys
 import threading
 import re
+import os
 
 # Shared state
 extend_minutes = 0
@@ -13,7 +14,7 @@ exit_requested = False
 def run_pmset(value):
     """Run pmset to (dis)allow sleep."""
     try:
-        subprocess.run(['sudo', 'pmset', '-a', 'disablesleep', value], check=True)
+        subprocess.run(['pmset', '-a', 'disablesleep', value], check=True)
     except subprocess.CalledProcessError:
         print(f"Failed to set disablesleep {value}")
         sys.exit(1)
@@ -65,6 +66,11 @@ def signal_handler(signum, frame):
 
 def main():
     global extend_minutes
+
+    if os.geteuid() != 0:
+        print("In order to ensure default sleep behavior is always restored, please run this script with sudo:")
+        print("  sudo ./nosleep.py <minutes>")
+        sys.exit(1)
 
     if len(sys.argv) != 2:
         print("Usage: stayawake.py <minutes>")

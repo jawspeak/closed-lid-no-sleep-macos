@@ -18,7 +18,7 @@ Features:
 
 Usage:
 
-`./nosleep.py 20`
+`sudo ./nosleep.py 20`
 
 See what the current sleep settings are with: `pmset -g`
 
