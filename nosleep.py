@@ -157,7 +157,7 @@ def main():
                 notified_2min_timer = False
                 notified_5min_timer = False
 
-            time.sleep(1)
+            time.sleep(30) # sleep a while
 
     finally:
         cleanup()
